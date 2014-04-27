@@ -183,22 +183,22 @@ func! s:VjdeRunCurrent(...)
 		let ct+=1
 	endwhile
         if a:0>=1 && strlen(a:1)>0
-                exec "!java  -cp \"".g:vjde_lib_path."\" ".a:1.' '.args
+                exec "!java -cp \"".g:vjde_lib_path."\" ".a:1.' '.args
 		return
         endif
 
         let cname = expand("%:t:r")
         let cpath= expand("%:h")
 		let cpath= substitute(cpath,'^'.getcwd()."/","","g")
-        if strlen(cpath)>strlen(g:vjde_src_path) "0
+        if !empty(g:vjde_src_path) && strlen(cpath)>strlen(g:vjde_src_path) "0
             if  strlen(g:vjde_src_path)!=0 && match(cpath,g:vjde_src_path)==0 
                 let cpath = strpart(cpath,strlen(g:vjde_src_path)+1)
             elseif strlen(g:vjde_test_path)!=0 && match(cpath,g:vjde_test_path)==0  
                 let cpath = strpart(cpath,strlen(g:vjde_test_path)+1)
             endif
-            exec "!java  -cp \"".g:vjde_lib_path."\" ".substitute(cpath,'[/\\]','.','g').".".cname.' '.args
-    else
-        exec "!java  -cp \"".g:vjde_lib_path."\" ".cname.' '.args
+            exec "!java -cp \"".g:vjde_lib_path."\" ".substitute(cpath,'[/\\]','.','g').".".cname.' '.args
+		else
+			exec "!java -cp \"".g:vjde_lib_path."\" ".cname.' '.args
     endif
 endf
 " create menu here {{{2
